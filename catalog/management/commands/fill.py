@@ -9,4 +9,4 @@ class Command(BaseCommand):
         Product.objects.all().delete()
         product_dict = {'pk': 1, 'name': 'phone', 'price': 50000, 'category': 1}
 
-        Product.objects.bulk_create(product_dict)
+        Product.objects.create(product_dict)
