@@ -8,8 +8,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         Product.objects.all().delete()
         product_list = [
-            {'name': 'phone', 'price': 50000, 'category': 1},
-            {'name': 'tv', 'price': 100000, 'category': 1},
+            {'pk': 1, 'name': 'phone', 'price': 50000, 'category_id': 1},
+            {'pk': 2, 'name': 'tv', 'price': 100000, 'category_id': 1},
         ]
 
         product_for_creats = []
