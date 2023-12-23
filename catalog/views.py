@@ -14,3 +14,6 @@ def contacts(request):
         print(f'{name} ({phone}): {message}')
 
     return render(request, 'contact.html')
+
+def products(request):
+    return render(request, 'products.html')
