@@ -4,7 +4,7 @@
 {% for object in object_list %}
     <div class="col-md-5 p-lg-5 mx-auto my-5">
         <h1 class="display-4 font-weight-normal">{{ object.name|title }}</h1>
-        <h2 class="display-8 font-weight-normal">{{ object.description|title }}</h2>
+        <h2 class="display-8 font-weight-normal">{{ object.description|slice:":100" }}</h2>
         <img class="card-img-top"
                  src="{{ object.photo|mymedia }}"
                  alt="Card image cap">
