@@ -35,3 +35,12 @@ def products(request):
     }
 
     return render(request, 'catalog/products.html', context)
+
+def product_detail(request, pk):
+    category_item = Category.objects.get(pk=pk)
+    context = {
+        'object_list': Product.objects.filter(category_id=pk),
+        'title': f'Товар категории - {category_item.name}'
+    }
+
+    return render(request, 'catalog/product_detail.html', context)
