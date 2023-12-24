@@ -28,10 +28,11 @@ def contacts(request):
     return render(request, 'catalog/contact.html', context)
 
 
-def products(request):
+def products(request, pk):
+    product_item = Product.objects.get(pk=pk)
     context = {
-        'object_list': Product.objects.all(),
-        'title': 'Товары'
+        'object_list': Product.objects.filter(id=pk),
+        'title': f'Товар - {product_item.name}'
     }
 
     return render(request, 'catalog/products.html', context)
