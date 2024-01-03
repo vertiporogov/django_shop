@@ -1,16 +1,28 @@
 from django.shortcuts import render
+from django.views.generic import TemplateView, ListView, DetailView
 
 from catalog.models import Category, Product
 
 
-def home(request):
-
-    context = {
-        'object_list': Category.objects.all(),
+class HomeView(TemplateView):
+    template_name = 'catalog/home.html'
+    extra_context = {
         'title': 'Магазин всего - Главная'
     }
 
-    return render(request, 'catalog/home.html', context)
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['object_list'] = Category.objects.all()
+        return context_data
+
+
+class ProductListView(ListView):
+    model = Product
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(category_id=self.kwargs.get('pk'))
+        return queryset
 
 
 def contacts(request):
@@ -28,20 +40,10 @@ def contacts(request):
     return render(request, 'catalog/contact.html', context)
 
 
-def products(request, pk):
-    product_item = Product.objects.get(pk=pk)
-    context = {
-        'object_list': Product.objects.filter(id=pk),
-        'title': f'Товар - {product_item.name}'
-    }
+class ProductDetailView(DetailView):
+    model = Product
 
-    return render(request, 'catalog/products.html', context)
-
-def product_detail(request, pk):
-    category_item = Category.objects.get(pk=pk)
-    context = {
-        'object_list': Product.objects.filter(category_id=pk),
-        'title': f'Товар категории - {category_item.name}'
-    }
-
-    return render(request, 'catalog/product_detail.html', context)
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['object_list'] = Product.objects.get(pk=self.kwargs.get('pk'))
+        return context_data

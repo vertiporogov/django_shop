@@ -10,12 +10,8 @@
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                     <li>{{ object.description|title }}</li>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:products_list' object.pk %}">Посмотреть</a>
                 </ul>
-                {% if object.pk == 1 %}
-                <a class="p-2 btn btn-outline-primary" href="/1/product_detail/">Посмотреть</a>
-                {% elif object.pk == 2 %}
-                <a class="p-2 btn btn-outline-primary" href="/2/product_detail/">Посмотреть</a>
-                {% endif %}
             </div>
         </div>
     </div>

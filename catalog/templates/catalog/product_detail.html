@@ -1,35 +1,13 @@
 {% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block content %}
-<div class="row">
-    {% for object in object_list %}
-    <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-            <img class="card-img-top"
+    <div class="col-md-5 p-lg-5 mx-auto my-5">
+        <h1 class="display-4 font-weight-normal">{{ object.name|title }}</h1>
+        <h2 class="display-8 font-weight-normal">{{ object.description|slice:":100" }}</h2>
+        <img class="card-img-top"
                  src="{{ object.photo|mymedia }}"
                  alt="Card image cap">
-            <div class="card-body">
-                <p class="card-text">{{ object.name|title }}</p>
-                <p class="card-text">{{ object.description|slice:":100" }}</p>
-                {% if object.pk == 1 %}
-                <a class="p-2 btn btn-outline-primary" href="/1/products/">Посмотреть</a>
-                {% elif object.pk == 2 %}
-                <a class="p-2 btn btn-outline-primary" href="/2/products/">Посмотреть</a>
-                {% elif object.pk == 3 %}
-                <a class="p-2 btn btn-outline-primary" href="/3/products/">Посмотреть</a>
-                {% elif object.pk == 4 %}
-                <a class="p-2 btn btn-outline-primary" href="/4/products/">Посмотреть</a>
-                {% elif object.pk == 5 %}
-                <a class="p-2 btn btn-outline-primary" href="/5/products/">Посмотреть</a>
-                {% elif object.pk == 6 %}
-                <a class="p-2 btn btn-outline-primary" href="/6/products/">Посмотреть</a>
-                {% elif object.pk == 7 %}
-                <a class="p-2 btn btn-outline-primary" href="/7/products/">Посмотреть</a>
-                {% endif %}
-
-            </div>
-        </div>
     </div>
-    {% endfor %}
-</div>
+    <div class="product-device box-shadow d-none d-md-block"></div>
+    <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
 {% endblock %}
