@@ -45,21 +45,6 @@ class ContactView(View):
         return render(request, self.template_name)
 
 
-# def contacts(request):
-#     context = {
-#         'title': 'Контакты'
-#     }
-#
-#     if request.method == 'POST':
-#         name = request.POST.get('name')
-#         phone = request.POST.get('phone')
-#         message = request.POST.get('message')
-#
-#         print(f'{name} ({phone}): {message}')
-#
-#     return render(request, 'catalog/contact.html', context)
-
-
 class ProductDetailView(DetailView):
     model = Product
 
