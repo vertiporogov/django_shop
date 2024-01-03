@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, DetailView
+# from django.views import View
+from django.views.generic import TemplateView, ListView, DetailView, View
 
 from catalog.models import Category, Product
 
@@ -25,19 +26,38 @@ class ProductListView(ListView):
         return queryset
 
 
-def contacts(request):
-    context = {
-        'title': 'Контакты'
-    }
+class ContactView(View):
+    template_name = 'catalog/contact.html'
 
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
+    def get(self, request):
+        return render(request, self.template_name)
 
-        print(f'{name} ({phone}): {message}')
+    def post(self, request):
+        if request.method == 'POST':
+            name = request.POST.get('name')
 
-    return render(request, 'catalog/contact.html', context)
+            phone = request.POST.get('phone')
+
+            message = request.POST.get('message')
+
+            print(name, phone, message)
+
+        return render(request, self.template_name)
+
+
+# def contacts(request):
+#     context = {
+#         'title': 'Контакты'
+#     }
+#
+#     if request.method == 'POST':
+#         name = request.POST.get('name')
+#         phone = request.POST.get('phone')
+#         message = request.POST.get('message')
+#
+#         print(f'{name} ({phone}): {message}')
+#
+#     return render(request, 'catalog/contact.html', context)
 
 
 class ProductDetailView(DetailView):
