@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="col-12 mb-5">
+    <a class="btn btn-outline-primary" href="{% url 'blog:create_blog' %}">Добавить материал</a>
+</div>
+
+<!--{% for object in object_list %}-->
+<div class="col-md-4">
+    <div class="card mb-4 box-shadow">
+        <div class="card-body">
+            <p class="card-text">
+                {{ object|title }}
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <a href="{% url 'blog:detail_blog' object.pk %}"
+                       class="btn btn-sm btn-outline-secondary">View</a>
+                    <a href="{% url 'blog:update_blog' object.pk %}" type="button"
+                       class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <a href="{% url 'blog:home2' %}" type="button"
+                       class="btn btn-sm btn-outline-secondary">Delete</a>
+                </div>
+                <small class="text-muted"></small>
+            </div>
+        </div>
+    </div>
+</div>
+<!--{% endfor %}-->
+{% endblock %}

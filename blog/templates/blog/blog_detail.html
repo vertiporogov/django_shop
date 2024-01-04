@@ -1,0 +1,20 @@
+{%  extends 'blog/base.html' %}
+{% load my_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="card mb-4 box-shadow ">
+            <div class="card-header d-flex align-items-center justify-content-center h-80">
+                <h5 class="my-0 font-weight-normal text-truncate">Блог "{{ object|title }}" ({{ object.slug }})</h5>
+            </div>
+            <div class="card-body">
+                  <p>
+                      {{ object.description }}
+                  </p>
+            </div>
+            <div class="card-footer">
+                Просмотры: {{ object.views_count }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
