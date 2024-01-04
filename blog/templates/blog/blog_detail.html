@@ -12,6 +12,9 @@
                       {{ object.description }}
                   </p>
             </div>
+            <img class="card-img-top"
+                 src="{{ object.photo|mymedia }}"
+                 alt="Card image cap">
             <div class="card-footer">
                 Просмотры: {{ object.views_count }}
             </div>
