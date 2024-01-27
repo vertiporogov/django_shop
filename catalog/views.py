@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 # from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView, View
+from django.views.generic import TemplateView, ListView, DetailView, View, CreateView
 
+from catalog.forms import ProductForm
 from catalog.models import Category, Product
 
 
@@ -24,6 +26,12 @@ class ProductListView(ListView):
         queryset = super().get_queryset()
         queryset = queryset.filter(category_id=self.kwargs.get('pk'))
         return queryset
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    # success_url = reverse_lazy('catalog:home')
 
 
 class ContactView(View):

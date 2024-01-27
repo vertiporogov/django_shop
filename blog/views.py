@@ -3,11 +3,13 @@ from django.views.generic import CreateView, TemplateView, UpdateView, ListView,
     DeleteView
 from pytils.translit import slugify
 
+from blog.forms import BlogForm
 from blog.models import Blog
 
 
 class BlogCreateView(CreateView):
     model = Blog
+    # form_class = BlogForm
     fields = ('title', 'description', 'photo',)
     success_url = reverse_lazy('blog:home2')
 
@@ -22,7 +24,8 @@ class BlogCreateView(CreateView):
 
 class BlogUpdateView(UpdateView):
     model = Blog
-    fields = ('title', 'description', 'photo',)
+    form_class = BlogForm
+    # fields = ('title', 'description', 'photo',)
     # success_url = reverse_lazy('blog:detail_blog')
 
     def form_valid(self, form):
