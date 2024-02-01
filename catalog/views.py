@@ -43,16 +43,16 @@ class ProductCreateView(CreateView):
     def get_success_url(self):
         return reverse('catalog:products_list', args=[self.object.category.pk])
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
-        if self.request.method == 'POST':
-            formset = VersionFormset(self.request.POST)
-        else:
-            formset = VersionFormset()
-
-        context_data['formset'] = formset
-        return context_data
+    # def get_context_data(self, **kwargs):
+    #     context_data = super().get_context_data(**kwargs)
+    #     VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+    #     if self.request.method == 'POST':
+    #         formset = VersionFormset(self.request.POST)
+    #     else:
+    #         formset = VersionFormset()
+    #
+    #     context_data['formset'] = formset
+    #     return context_data
 
 
 class ProductUpdateView(UpdateView):
@@ -67,9 +67,9 @@ class ProductUpdateView(UpdateView):
         context_data = super().get_context_data(**kwargs)
         VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
         if self.request.method == 'POST':
-            formset = VersionFormset(self.request.POST)
+            formset = VersionFormset(self.request.POST, instance=self.object)
         else:
-            formset = VersionFormset()
+            formset = VersionFormset(instance=self.object)
 
         context_data['formset'] = formset
         return context_data

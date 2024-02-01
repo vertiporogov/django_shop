@@ -34,7 +34,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         return cleaned_data
 
 
-class VersionForm(StyleFormMixin, forms.ModelForm):
+class VersionForm(forms.ModelForm):
 
     class Meta:
         model = Version
@@ -42,7 +42,7 @@ class VersionForm(StyleFormMixin, forms.ModelForm):
 
     def clean_is_activ(self):
         cleaned_data = self.cleaned_data['is_activ']
-        if cleaned_data is not True:
+        if cleaned_data:
             raise forms.ValidationError('Уже существует активная версия')
 
         return cleaned_data
