@@ -34,10 +34,10 @@ class ProductListView(ListView):
         return context_data
 
 
-
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
+
     # success_url = reverse_lazy('catalog:home')`
 
     def get_success_url(self):
@@ -58,6 +58,7 @@ class ProductCreateView(CreateView):
 class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
+
     # success_url = reverse_lazy('catalog:home')`
 
     def get_success_url(self):
@@ -79,12 +80,14 @@ class ProductUpdateView(UpdateView):
         formset = context_data['formset']
         self.object = form.save()
 
+        print(formset.is_valid())
+        print(formset.errors)
+
         if formset.is_valid():
             formset.instance = self.object
             formset.save()
 
         return super().form_valid(form)
-
 
 
 class ContactView(View):

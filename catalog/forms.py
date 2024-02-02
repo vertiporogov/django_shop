@@ -3,6 +3,7 @@ from django import forms
 from catalog.models import Product, Version
 
 
+
 class StyleFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -42,8 +43,11 @@ class VersionForm(forms.ModelForm):
 
     def clean_is_activ(self):
         cleaned_data = self.cleaned_data['is_activ']
+
         if cleaned_data:
-            raise forms.ValidationError('Уже существует активная версия')
+            # Проверяем, существует ли активная версия в базе данных
+            if Version.objects.filter(is_activ=True).exists():
+                raise forms.ValidationError('Уже существует активная версия')
 
         return cleaned_data
 
