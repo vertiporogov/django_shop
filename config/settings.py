@@ -145,3 +145,5 @@ EMAIL_HOST_USER = 'vertiporogov.alexandr@mail.ru'
 EMAIL_HOST_PASSWORD = 'KUeWDdk5dqwmtMjjYqKz'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+

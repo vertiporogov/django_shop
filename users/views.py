@@ -3,6 +3,7 @@ import random
 from django.conf import settings
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
@@ -26,6 +27,9 @@ class RegisterView(CreateView):
     success_url = reverse_lazy('users:login')
     template_name = 'users/register.html'
 
+    def form_valid(self, form):
+        pass
+
 
 class UserProfileView(UpdateView):
     model = User
@@ -48,4 +52,3 @@ def generate_new_password(request):
     request.user.set_password(new_password)
     request.user.save()
     return redirect(reverse('catalog:home'))
-
