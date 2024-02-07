@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
@@ -20,8 +21,12 @@ class HomeView(TemplateView):
         return context_data
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -34,11 +39,15 @@ class ProductListView(ListView):
         return context_data
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
 
     # success_url = reverse_lazy('catalog:home')`
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('catalog:products_list', args=[self.object.category.pk])
@@ -55,7 +64,7 @@ class ProductCreateView(CreateView):
     #     return context_data
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
 
@@ -80,8 +89,10 @@ class ProductUpdateView(UpdateView):
         formset = context_data['formset']
         self.object = form.save()
 
-        print(formset.is_valid())
-        print(formset.errors)
+        form.instance.owner = self.request.user
+
+        # print(formset.is_valid())
+        # print(formset.errors)
 
         if formset.is_valid():
             formset.instance = self.object
@@ -109,10 +120,14 @@ class ContactView(View):
         return render(request, self.template_name)
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data['object_list'] = Product.objects.get(pk=self.kwargs.get('pk'))
         return context_data
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)

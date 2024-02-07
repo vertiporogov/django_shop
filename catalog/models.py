@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -24,6 +26,8 @@ class Product(models.Model):
     photo = models.ImageField(upload_to='catalog/', **NULLABLE, verbose_name='фото')
     date_create = models.DateField(auto_now_add=True, **NULLABLE, verbose_name='дата создания')
     date_change = models.DateField(auto_now=True, **NULLABLE, verbose_name='дата изменения')
+
+    owner = models.ForeignKey(User, **NULLABLE, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f'{self.name} ({self.category})'
