@@ -1,7 +1,8 @@
-
+from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms import inlineformset_factory
-from django.shortcuts import render
+from django.http import Http404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 # from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, View, CreateView, UpdateView
@@ -102,6 +103,13 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 
         return super().form_valid(form)
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+
+        if self.object.owner != self.request.user:
+            raise Http404
+        return self.object
+
 
 class ContactView(View):
     template_name = 'catalog/contact.html'
@@ -148,5 +156,19 @@ class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
 
 
-class CategoryDetailView(LoginRequiredMixin,DetailView):
+class CategoryDetailView(LoginRequiredMixin, DetailView):
     model = Category
+
+
+@login_required
+@permission_required('catalog.change_product')
+def toggle_published(request, pk):
+    product_item = get_object_or_404(Product, pk=pk)
+    if product_item.is_published:
+        product_item.is_published = False
+    else:
+        product_item.is_published = True
+
+    product_item.save()
+
+    return redirect(reverse('catalog:home'))

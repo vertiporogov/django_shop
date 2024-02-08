@@ -17,6 +17,13 @@
                 <a class="p-2 btn btn-outline-primary"
                    href="{% url 'catalog:product_update' object.pk %}">Изменить</a>
             </div>
+            <div class="card-footer">
+                {% if object.is_published %}
+                <a class="btn btn-warning" href="{% url 'catalog:toggle_published' object.pk %}">Отменить публикацию</a>
+                {% else %}
+                <a class="btn btn-success" href="{% url 'catalog:toggle_published' object.pk %}">Опубликовать</a>
+                {% endif %}
+            </div>
         </div>
     </div>
     {% endfor %}
