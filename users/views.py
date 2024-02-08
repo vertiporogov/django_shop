@@ -35,8 +35,8 @@ class RegisterView(CreateView):
         new_user.save()
 
         send_mail(
-            subject='Восстановление пароля',
-            message=f'Ваш новый пароль http://127.0.0.1:8000/users/validate/{new_user.token}/',
+            subject='Подтверждение почты',
+            message=f'Для завершения регистрации перейдите по ссылке  http://127.0.0.1:8000/users/validate/{new_user.token}/',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[new_user.email]
         )
