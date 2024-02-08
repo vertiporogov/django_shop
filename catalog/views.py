@@ -1,11 +1,12 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 # from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, View, CreateView, UpdateView
 
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, CategoryForm
 from catalog.models import Category, Product, Version
 
 
@@ -64,9 +65,10 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     #     return context_data
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'catalog.change_product'
 
     # success_url = reverse_lazy('catalog:home')`
 
@@ -131,3 +133,20 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
+
+class CategoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Category
+    form_class = CategoryForm
+    permission_required = 'catalog.change_category'
+
+    def get_success_url(self):
+        return reverse('catalog:category_list')
+
+
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+
+
+class CategoryDetailView(LoginRequiredMixin,DetailView):
+    model = Category

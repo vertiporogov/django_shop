@@ -27,6 +27,8 @@ class Product(models.Model):
     date_create = models.DateField(auto_now_add=True, **NULLABLE, verbose_name='дата создания')
     date_change = models.DateField(auto_now=True, **NULLABLE, verbose_name='дата изменения')
 
+    is_published = models.BooleanField(default=False, verbose_name='опубликовано')
+
     owner = models.ForeignKey(User, **NULLABLE, on_delete=models.SET_NULL)
 
     def __str__(self):

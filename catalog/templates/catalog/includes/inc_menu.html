@@ -8,6 +8,7 @@
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_create' %}">Добавить продукт</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'users:logout' %}">Выйти</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'users:register' %}">Изменить профитль</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:category_list' %}">Изменить категорию</a>
         {% else %}
         <a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Войти</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'users:register' %}">Регистрация</a>
