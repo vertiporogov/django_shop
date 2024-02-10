@@ -9,6 +9,7 @@ from django.views.generic import TemplateView, ListView, DetailView, View, Creat
 
 from catalog.forms import ProductForm, VersionForm, CategoryForm
 from catalog.models import Category, Product, Version
+from catalog.services import get_categories_cache
 
 
 class HomeView(TemplateView):
@@ -19,7 +20,7 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data['object_list'] = Category.objects.all()
+        context_data['object_list'] = get_categories_cache()
         return context_data
 
 
@@ -70,8 +71,6 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     model = Product
     form_class = ProductForm
     permission_required = 'catalog.change_product'
-
-    # success_url = reverse_lazy('catalog:home')`
 
     def get_success_url(self):
         return reverse('catalog:products_list', args=[self.object.category.pk])
@@ -154,6 +153,11 @@ class CategoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
 
 class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['object_list'] = get_categories_cache()
+        return context_data
 
 
 class CategoryDetailView(LoginRequiredMixin, DetailView):

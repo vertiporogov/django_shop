@@ -12,6 +12,7 @@ from django.views.generic import CreateView, UpdateView
 
 from users.forms import UserRegisterForm, UserForm
 from users.models import User
+from users.services import send_new_password, send_registration
 
 
 class LoginView(BaseLoginView):
@@ -34,12 +35,7 @@ class RegisterView(CreateView):
         new_user.token = self.token_generate()
         new_user.save()
 
-        send_mail(
-            subject='Подтверждение почты',
-            message=f'Для завершения регистрации перейдите по ссылке  http://127.0.0.1:8000/users/validate/{new_user.token}/',
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[new_user.email]
-        )
+        send_registration(new_user.email, new_user.token)
 
         return redirect(reverse('catalog:home'))
 
@@ -71,10 +67,5 @@ def generate_new_password(request):
     # print(email)
     user.set_password(new_password)
     user.save()
-    send_mail(
-        subject='Восстановление пароля',
-        message=f'Ваш новый пароль {new_password}',
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[user.email]
-    )
+    send_new_password(email, new_password)
     return redirect(reverse('catalog:home'))
